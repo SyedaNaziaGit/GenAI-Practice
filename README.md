@@ -156,4 +156,53 @@ PydanticOutputParser
 ✅ Seamless Integration – Works well with other LangChain components.
 
 
+Table ContentsChain |NameDescription|
+LLMChainBasic -chain that calls an LLM with a prompt template.
+SequentialChainChains -multiple LLM calls in a specific sequence.
+SimpleSequentialChain- A simplified version of SequentialChain for easier use.
+ConversationalRetrievalChainHandles - conversational Q&A with memory and retrieval.
+RetrievalQAFetches - relevant documents and uses an LLM for question-answering.
+RouterChainDirects -user queries to different chains based on intent
+MultiPromptChainUses -different prompts for different user intents dynamically.
+HydeChain (Hypothetical Document Embeddings)- Generates hypothetical answers to improve document retrieval.
+AgentExecutorChainOrchestrates - different tools and actions dynamically using an agent.
+SQLDatabaseChainConnects - to SQL databases and answers natural language queries.
+
+
+Runnables Types:
+Task Specific Runnables 
+Runnable Primitives 
+
+Definition: These are core LangChain components that have been converted into Runnables so they can be used in pipelines.
+Purpose: Perform task-specific operations like LLM calls, prompting, retrieval, etc.
+Examples:
+ChatOpenAI → Runs an LLM model.
+PromptTemplate → Formats prompts dynamically.
+Retriever → Retrieves relevant documents.
+
+hese are core LangChain components that have been converted into Runnables so they can be used in pipelines.
+Purpose: Perform task-specific operations like LLM calls, prompting, retrieval, etc.Examples:ChatOpenAI → Runs an LLM model.PromptTemplate → Formats prompts dynamically.Retriever → Retrieves relevant documents.
+
+1. RunnableSequence
+RunnableSequence is a sequential chain of runnables in LangChain that executes each step one after another, passing the output of one step as the input to the next.It is useful when you need to compose multiple runnables together in a structured workflow.
+
+2. RunnableParallel
+RunnableParallel is a runnable primitive that allows multiple runnables to execute in parallel.Each runnable receives the same input and processes it independently, producing a dictionary of outputs.
+
+
+3. RunnablePassthrough
+RunnablePassthrough is a special Runnable primitive that simply returns the input as output without modifying it.
+
+4. RunnableLambda
+RunnableLambda is a runnable primitive that allows you to apply custom Python functions within an AI pipeline.It acts as a middleware between different AI components, enabling preprocessing, transformation, API calls, filtering, and post-processing in a LangChain workflow.
+
+5. RunnableBranch
+RunnableBranch is a control flow component in LangChain that allows you to conditionally route input data to different chains or runnables based on custom logic.It functions like an if/elif/else block for chains — where you define a set of condition functions, each associated with a runnable (e.g., LLM call, prompt chain, or tool). The first matching condition is executed. If no condition matches, a default runnable is used (if provided).
+
+LCEL
+RunnableSequence ( r1, r2, r3 . . . )
+[ r1 | r2 | r3 . . . ] → LCEL
+
+
+
 
