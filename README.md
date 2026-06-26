@@ -486,3 +486,116 @@ https://docs.langchain.com/oss/python/integrations/document_loaders
 
 
 
+
+Text Splitting
+Text Splitting is the process of breaking large chunks of text (like articles, PDFs, HTML pages, or books) into smaller, manageable pieces (chunks) that an LLM can handle effectively.
+
+
+
+* Overcoming model limitations: Many embedding models and language models have maximum input size constraints. Splitting allows us to process documents that would otherwise exceed these limits.
+* Downstream tasks - Text Splitting improves nearly every LLM powered task
+
+| Task | Why Splitting Helps |
+|---|---|
+| Embedding | Short chunks yield more accurate vectors |
+| Semantic Search | Search results point to focused info, not noise |
+| Summarization | Prevents hallucination and topic drift |
+
+* Optimizing computational resources: Working with smaller chunks of text can be more memory-efficient and allow for better parallelization of processing tasks.
+
+------------------------------
+## Diagram Flowchart
+
+                 [Text Splitters]
+                        |
+      +-----------------+-----------------+-----------------+
+
+      |                 |                 |                 |
+      v                 v                 v                 v
+[Length Based]  [Text Structure]  [Document Structure]  [Semantic Meaning]
+                    [Based]             [Based]              [Based]
+
+## Text Transcripts
+
+* Text Splitters
+* Length Based
+* Text Structure Based
+* Document Structure Based
+* Semantic Meaning Based
+
+(Top right handwritten diagram notes: text, vec)
+------------------------------
+## 1. Length Based Text Splitting
+Original Text (Left Box):
+Space exploration has led to incredible scientific discoveries. From landing on the Moon to exploring Mars, humanity continues to push the boundaries of what's possible beyond our planet.
+These missions have not only expanded our knowledge of the universe but have also contributed to advancements in technology here on Earth. Satellite communications, GPS, and even certain medical imaging techniques trace their roots back to innovations driven by space programs.
+------------------------------
+Split Chunks (Right Box):
+
+* Chunk 1:
+Space exploration has led to incredible scientific discoveries. From landing on the Moon to explorin
+* Chunk 2:
+g Mars, humanity continues to push the boundaries of what's possible beyond our planet. These missi
+* Chunk 3:
+ons have not only expanded our knowledge of the universe but have also contributed to advancements in
+* Chunk 4:
+n technology here on Earth. Satellite communications, GPS, and even certain medical imaging techniqu
+* Chunk 5:
+es trace their roots back to innovations driven by space programs.
+
+------------------------------
+.
+
+## 2. Text-Structured Based
+My name is Nitish
+I am 35 years old
+I live in Gurgaon
+How are you
+------------------------------
+
+## 3. Document-Structured Based
+Markdown Document (Left Column):
+## 📘 Project Name: Smart Student Tracker
+A simple Python-based project to manage and track student data,
+...
+## 🔍 Features
+
+* Add new students with relevant info
+* View student details
+* Check if a student is passing
+* Easily extendable class-based design
+
+...
+## 🛠️ Tech Stack
+
+* Python 3.10+
+* No external dependencies
+
+------------------------------
+Python Code Document (Right Column):
+
+class Student:
+    def __init__(self, name, age, grade):
+        self.name = name
+        self.age = age
+        self.grade = grade  # Grade is a float (like 8.5 or 9.2)
+
+    def get_details(self):
+        return f"Name: {self.name}, Age: {self.age}, Grade: {self.grade}"
+
+    def is_passing(self):
+        return self.grade >= 6.0
+
+# Example usagestudent1 = Student("Aarav", 20, 8.2)
+print(student1.get_details())
+if student1.is_passing():
+    print("The student is passing.")else:
+    print("The student is not passing.")
+
+------------------------------
+
+## 4. Semantic Meaning Based
+------------------------------
+
+
+
