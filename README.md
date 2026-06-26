@@ -480,7 +480,9 @@ print(docs[0].page_content)
 
 ========================================================
 
+https://docs.langchain.com/oss/python/langchain/overview
 
+https://docs.langchain.com/oss/python/integrations/document_loaders
 
 
 
