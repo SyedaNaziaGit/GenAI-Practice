@@ -1052,3 +1052,62 @@ End-to-End RAG Pipeline Architecture Diagram
 * 🟦 Prompt $\rightarrow$ 🟩 LLM $\rightarrow$ 🛑 Response
 
 ------------------------------
+
+Improvements
+   1. UI based enhancements
+   2. Evaluation
+   a. Ragas
+   b. LangSmith
+   3. Indexing
+   a. Document Ingestion
+   b. Text Splitting
+   c. Vector Store
+   4. Retrieval
+   a. Pre-Retrieval
+   i. Query rewriting using LLM
+   ii. Multi-query generation
+   iii. Domain aware routing
+   b. During Retrieval
+   i. MMR
+   ii. Hybrid Retrieval
+   iii. Reranking
+   c. Post-Retrieval
+   i. Contextual Compression
+   5. Augmentation
+   a. Prompt Templating
+
+Here is the text extracted from the table, with the cut-off sentences completed for clarity:
+
+| Metric | What It Measures |
+|---|---|
+| faithfulness | Is the answer grounded in the retrieved context? |
+| answer_relevancy | Is the answer relevant to the user's question? |
+| context_precision | How much of the retrieved context is actually useful? |
+| context_recall | Did we retrieve all necessary information? |
+
+Here is the text extracted from the provided image, including the handwritten note at the top and the complete list:
+Pinecone (handwritten note at top)
+
+   1. Retrieval
+   * a. Pre-Retrieval
+      * i. Query rewriting using LLM
+         * ii. Multi-query generation
+         * iii. Domain aware routing
+      * b. During Retrieval
+      * i. MMR
+         * ii. Hybrid Retrieval
+         * iii. Reranking
+      * c. Post-Retrieval
+      * i. Contextual Compression
+      2. Augmentation
+   * a. Prompt Templating
+      * b. Answer grounding
+      * c. Context window optimization
+   3. Generation
+   * a. Answer with Citation
+      * b. Guard railing
+   4. System Design
+   * a. Multimodal
+      * b. Agentic
+      * c. Memory based
+   
