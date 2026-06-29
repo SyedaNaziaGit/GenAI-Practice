@@ -856,6 +856,199 @@ More Retrievers
 https://docs.langchain.com/oss/python/integrations/providers/overview
 
 
+##RAG - RETRIEVAL AUGMENTED GENERATION
+
+What is RAG?
+
+Query -> LLM -> Response
+(Prompt)
 
 
-https://docs.langchain.com/oss/python/integrations/providers/overview
+
+   1. Collect data: A few hundred – few hundred-thousand carefully curated examples (prompts $\rightarrow$ desired outputs).
+   2. Choose a method: Full-parameter FT, LoRA/QLoRA, or parameter-efficient adapters.
+   3. Train for a few epochs: You keep the base weights frozen or partially frozen and update only a small subset (LoRA) or all weights (full FT).
+   4. Evaluate & safety-test: Measure exact-match, factuality, and hallucination rate against held-out data; red-team for safety.
+
+
+In-Context Learning is a core capability of Large Language Models (LLMs) like GPT-3/4, Claude, and Llama, where the model learns to solve a task purely by seeing examples in the prompt—without updating its weights.
+
+Below are examples of texts labeled with their sentiment.
+Use these examples to determine the sentiment of the final text.
+Text: I love this phone. It's so smooth. $\rightarrow$ Positive
+Text: This app crashes a lot. $\rightarrow$ Negative
+Text: The camera is amazing! $\rightarrow$ Positive
+Text: I hate the battery life. $\rightarrow$
+
+Label the named entities in the sentences (Person, Location, Organization)
+Sentence: Elon Musk founded SpaceX.
+Entities: [Elon Musk $\rightarrow$ Person], [SpaceX $\rightarrow$ Organization]
+Sentence: The Eiffel Tower is in Paris.
+Entities: ..., [Paris $\rightarrow$ Location]
+
+Solve the math problems step by step:
+Q: John has 3 apples. He buys 4 more. How many apples does he have now?
+A: John had 3 apples. He bought 4 more. 3 + 4 = 7. → 7
+Q: Sarah has 10 pens. She gives away 3. How many does she have left?
+A: Sarah had 10 pens. She gave away 3. 10 - 3 = 7. → 7
+Q: A pizza is cut into 8 slices. Alex eats 3 slices. How many are left?
+------------------------------
+
+An emergent property is a behaviour or ability that suddenly appears in a system when it reaches a certain scale or complexity—even though it was not explicitly programmed or expected from the individual components.
+-----------------------------
+https://arxiv.org/abs/2206.07682
+
+
+
+
+* Instead of just example tasks, retrieve background information, facts, documents, product manuals, etc.
+* Inject that into the prompt to augment the model's knowledge
+
+------------------------------
+"""You are a helpful assistant.
+Answer the question ONLY from the provided context.
+If the context is insufficient, just say you don't know.
+{context}
+Question: {question}"""
+------------------------------
+This slide demonstrates a typical system prompt template for Retrieval-Augmented Generation (RAG) to prevent model hallucination. 
+
+
+===================
+RAG is a way to make a language model (like ChatGPT) smarter by giving it extra information at the time you ask your question.
+------------------------------
+We have reached the end of this conceptual overview on RAG and prompting. If you want to dive deeper, I can:
+
+* Provide the original RAG paper link and overview.
+* Show a simple Python implementation of a RAG pipeline.
+* Explain the difference between RAG and Fine-Tuning.
+
+Query + Context $\rightarrow$ Prompt $\rightarrow$ LLM $\rightarrow$ Response
+------------------------------
+This diagram visualizes the core architecture of a Retrieval-Augmented Generation (RAG) system, illustrating how a Query and external Context combine into a single Prompt before being processed by the LLM to generate a Response.
+Would you like me to:
+
+* Provide a code example showing how this prompt merging happens?
+* Explain the vector database step that fetches the context?
+* Move on to the next slide in your presentation?
+
+
+Query + Context $\rightarrow$ Prompt $\rightarrow$ LLM $\rightarrow$ Response
+------------------------------
+This diagram visualizes the core architecture of a Retrieval-Augmented Generation (RAG) system, illustrating how a Query and external Context combine into a single Prompt before being processed by the LLM to generate a Response.
+Would you like me to:
+
+* Provide a code example showing how this prompt merging happens?
+* Explain the vector database step that fetches the context?
+* Move on to the next slide in your presentation?
+
+
+Understanding RAG
+16 April 2025 12:44
+Query + Context $\rightarrow$ Prompt $\rightarrow$ LLM $\rightarrow$ Response
+
+* Indexing
+* Retrieval
+* Augmentation
+* Generation
+
+------------------------------
+This slide breaks down the four core components of a RAG pipeline (Indexing, Retrieval, Augmentation, and Generation).
+If you want to continue exploring, I can:
+
+* Detail the difference between Indexing and Retrieval.
+* Provide a Python skeleton mapping out these four stages.
+* Extract more text from your next slide.
+
+
+Indexing - Indexing is the process of preparing your knowledge base so that it can be efficiently searched at query time. This steps consists of 4 sub-steps.
+
+   1. Document Ingestion - You load your source knowledge into memory.
+   * 📤 Examples:
+      * PDF reports, Word documents
+         * YouTube transcripts, blog pages
+         * GitHub repos, internal wikis
+         * SQL records, scraped webpages
+      * 🔧 Tools:
+      * LangChain loaders (PyPDFLoader, YoutubeLoader, WebBaseLoader, GitLoader, etc.)
+      
+📄 $\rightarrow$ Document Loader $\rightarrow$ 🗎
+
+
+
+
+   1. Text Chunking - Break large documents into small, semantically meaningful chunks
+
+
+* 🧱 Why chunk?
+* LLMs have context limits (e.g., 4K-32K tokens)
+   * Smaller chunks are more focused $\rightarrow$ better semantic search
+* 🔧 Tools:
+* RecursiveCharacterTextSplitter, MarkdownHeaderTextSplitter, SemanticChunker
+
+🌐 $\rightarrow$ Document Loader $\rightarrow$ 📄 $\rightarrow$ Text Splitter
+------------------------------
+This slide covers the second sub-step of indexing. If you would like to continue, I can:
+
+* Provide a Python example comparing RecursiveCharacterTextSplitter and character splitting.
+* Explain the strategy behind choosing an optimal chunk size and overlap.
+* Extract text from your next slide.
+
+
+
+   1. Embedding Generation - Convert each chunk into a dense vector (embedding) that captures its meaning.
+
+
+* 🔍 Why embeddings?
+* Similar ideas land close together in vector space
+   * Allows fast, fuzzy semantic search
+* 🔧 Tools:
+* OpenAIEmbeddings, SentenceTransformerEmbeddings, InstructorEmbeddings, etc.
+
+🌐 $\rightarrow$ Document Loader $\rightarrow$ 📄 $\rightarrow$ Text Splitter $\rightarrow$ [ Vectors ]
+
+
+
+
+   1. Storage in a Vector Store - Store the vectors along with the original chunk text + metadata in a vector database.
+
+
+* 🔧 Vector DB options:
+* Local: FAISS, Chroma
+   * Cloud: Pinecone, Weaviate, Milvus, Qdrant
+
+------------------------------
+Retrieval - Retrieval is the real-time process of finding the most relevant pieces of information from a pre-built index (created during indexing) based on the user's question.
+It's like asking:
+
+"From all the knowledge I have, which 3–5 chunks are most helpful to answer this query?"
+
+------------------------------
+Augmentation - Augmentation refers to the step where the retrieved documents (chunks of relevant context) are combined with the user's query to form a new, enriched prompt for the LLM.
+
+"""You are a helpful assistant.
+Answer the question ONLY from the provided context.
+If the context is insufficient, just say you don't know.
+
+{context}
+Question: {question}"""
+Generation - Generation is the final step where a Large Language Model (LLM) uses the user's query and the retrieved & augmented context to generate a response.
+------------------------------
+This concludes the 4 core steps of a standard RAG pipeline (Indexing, Retrieval, Augmentation, and Generation).
+
+End-to-End RAG Pipeline Architecture Diagram
+1. Indexing Stage (Top Half)
+
+* 🌐 WWW $\rightarrow$ Document Loader $\rightarrow$ 📄 Document
+* 📄 Document $\rightarrow$ Text Splitter $\rightarrow$ [ 🗎 , 🗎 , 🗎 , 🗎 ] Chunks
+* Chunks $\rightarrow$ Embedding Model $\rightarrow$ [ █║▌ , █║▌ , █║▌ , █║▌ ] Dense Vectors
+* Dense Vectors $\rightarrow$ 🛢️ Vector Store
+
+2. Runtime Stage (Bottom Half)
+
+* 🟢 Query $\rightarrow$ 🟥 Retriever
+* 🟥 Retriever $\leftrightarrow$ 🔍 Semantic Search $\leftrightarrow$ 🛢️ Vector Store
+* 🛢️ Vector Store $\rightarrow$ [ 📄 Context + 🟢 Query ] $\rightarrow$ 🟦 Prompt
+* 🟦 Prompt $\rightarrow$ 🟩 LLM $\rightarrow$ 🛑 Response
+
+------------------------------
