@@ -1111,3 +1111,164 @@ Pinecone (handwritten note at top)
       * b. Agentic
       * c. Memory based
    
+Tools
+## Overview
+
+* Tools (with an arrow pointing up to it from below)
+* Tool Calling (with an arrow pointing to it from Tools)
+* Agents (with an arrow pointing to it from Tool Calling)
+
+## What is a Tool?
+A tool is just a Python function (or API) that is packaged in a way the LLM can understand and call when needed.
+## LLMs (like GPT) are great at:
+
+* Reasoning
+* Language generation
+
+## But they can't do things like:
+
+* Access live data (weather, news)
+* Do reliable math
+* Call APIs
+* Run code
+* Interact with a database
+
+## Diagram Text
+
+* Tools
+* Built-in Tools
+   * Custom Tools
+
+## How Tools fits into the Agent ecosystem
+An AI agent is an LLM-powered system that can autonomously think, decide, and take actions using external tools or APIs to achieve a goal.
+## Agent Architecture Diagram
+Within the main Agent block, there are two side-by-side components:
+
+* Reasoning & Decision Making
+* Powered by: LLM
+* Action
+* Powered by: Tools
+
+## Built-in Tools
+
+A built-in tool is a tool that LangChain already provides for you — it's pre-built, production-ready, and requires minimal or no setup.
+You don't have to write the function logic yourself — you just import and use it.
+## Tool List
+
+* DuckDuckGoSearchRun
+* Web search via DuckDuckGo
+* WikipediaQueryRun
+* Wikipedia summary
+* PythonREPLTool
+* Run raw Python code
+* ShellTool
+* Run shell commands
+* RequestsGetTool
+* Make HTTP GET requests
+* GmailSendMessageTool
+* Send emails via Gmail
+* SlackSendMessageTool
+* Post message to Slack
+* SQLDatabaseQueryTool
+* Run SQL queries
+
+
+## Custom Tools
+
+A custom tool is a tool that you define yourself.
+## Use them when:
+
+* You want to call your own APIs
+* You want to encapsulate business logic
+* You want the LLM to interact with your database, product, or app
+
+## Ways to create Custom Tools
+
+## Ways to create Tools
+
+* using @tool decorator (Highlighted with a red outline)
+* using StructuredTool & Pydantic
+* Using BaseTool class
+
+A Structured Tool in LangChain is a special type of tool where the input to the tool follows a structured schema, typically defined using a Pydantic model.
+(Note: The text is marked with a red bracket on the left, and the phrase "special type of tool" is underlined in red.)
+
+BaseTool is the abstract base class for all tools in LangChain.
+It defines the core structure and interface that any tool must follow, whether it's a simple one-liner or a fully customized function.
+All other tool types like @tool, StructuredTool are built on top of BaseTool.
+(Note: The phrase "abstract base class for all tools in LangChain." is underlined in red.)
+
+## Toolkits
+
+A toolkit is just a collection (bundle) of related tools that serve a common purpose — packaged together for convenience and reusability.
+In LangChain:
+
+* A toolkit might be: GoogleDriveToolKit
+* And it can contain the following tools
+* GoogleDriveCreateFileTool: Upload a file
+* GoogleDriveSearchTool: Search for a file by name/content
+* GoogleDriveReadFileTool: Read contents of a file
+
+The text contained in the image is transcribed below:
+English Text:
+
+* LLMs Good at reasoning & speaking
+* DuckDuckGo Search
+* Shell Tool
+* API
+
+
+Tool Binding
+
+Tool Binding is the step where you register tools with a Language Model (LLM) so that:
+
+   1. The LLM knows what tools are available
+   2. It knows what each tool does (via description)
+   3. It knows what input format to use (via schema)
+
+
+## Tool Calling
+
+Tool Calling is the process where the LLM (language model) decides, during a conversation or task, that it needs to use a specific tool (function) — and generates a structured output with:
+
+* the name of the tool
+* and the arguments to call it with
+
+⚠️ The LLM does not actually run the tool — it just suggests the tool and the input arguments. The actual execution is handled by LangChain or you.
+Tool creation. (Handwritten text at the bottom)
+------------------------------
+## Right-Side Panel Example
+"What's 8 multiplied by 7?"
+The LLM responds with a tool call:
+
+{
+  "tool": "multiply",
+  "args": { "a": 8, "b": 7 }
+}
+
+
+## Tool Execution
+
+Tool Execution is the step where the actual Python function (tool) is run using the input arguments that the LLM suggested during tool calling.
+In simpler words:
+🧠 The LLM says:
+"Hey, call the multiply tool with $a=8$ and $b=7$."
+⚙️ Tool Execution is when you or LangChain actually run:
+multiply(a=8, b=7)
+$\rightarrow$ and get the result: 56
+------------------------------
+
+❌ "LLM, do not try to fill this argument." ✅ "I (the developer/runtime) will inject this value after running earlier tools." (Underlined text at the top)
+AI Agent — (Handwritten text in red)
+
+   1. User says: "Convert 10 USD to INR."
+   2. LLM thinks: "I don't know the rate. First, let me call get_conversion_factor."
+   3. Tool result comes: 85.3415
+   4. LLM looks at result, THINKS again: "Now I know the rate, next I should call convert with 10 and 85.3415."
+   5. Tool result comes: 853.415 INR
+   6. LLM summarizes: "10 USD is 853.415 INR at current rate."
+
+------------------------------
+
+
+https://app.exchangerate-api.com/
